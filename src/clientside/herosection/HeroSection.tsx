@@ -1,23 +1,27 @@
 import React from "react";
 
-import headphone1 from "../../assets/images/headphone/headphone1.jpeg";
-import camera3 from "../../assets/images/camera/camera3.jpeg";
-import laptop2 from "../../assets/images/laptop/laptop2.jpeg";
+import laptopP3 from "../../assets/images/laptopP3.png";
+import headphoneP from "../../assets/images/headphoneP.png";
+import cameraP from "../../assets/images/cameraP.png";
+
+
+
+
 const banners = [
   {
     title: "Laptop Collection",
     subtitle: "SHOP NOW",
-    image: laptop2,
+    image: laptopP3,
   },
   {
     title: "Accessories Collection",
     subtitle: "SHOP NOW",
-    image: headphone1,
+    image: headphoneP,
   },
   {
     title: "Cameras Collection",
     subtitle: "SHOP NOW",
-    image: camera3,
+    image: cameraP,
   },
 ];
 

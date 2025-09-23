@@ -2,23 +2,23 @@ import React from 'react';
 
 const Newsletter: React.FC = () => {
   return (
-    <div className="bg-gray-100 py-12 px-4">
-      <div className="max-w-4xl mx-auto text-center">
+    <div className="py-12 px-4 mt-20 ">
+            <div className="max-w-4xl mx-auto text-center">
 
         <h2 className="text-3xl font-light text-gray-800 mb-6 tracking-wide">
           Sign Up for the <span className="font-semibold">NEWSLETTER</span>
         </h2>
         
-        <div className="flex flex-col sm:flex-row justify-center items-center max-w-2xl mx-auto mb-8">
+        <div className="flex flex-row sm:flex-row justify-center items-center max-w-full mx-auto mb-8 sm:max-w-2xl">
         
           <input
             type="email"
             placeholder="Your email address"
-            className="w-full sm:flex-1 px-6 py-4 border border-gray-300 rounded-l-full text-gray-700 placeholder-gray-500 focus:outline-none focus:border-gray-500 text-lg"
+            className="w-full sm:flex-1 px-6 py-3 md:py-4 md:px-4 border border-gray-300 rounded-l-full rounded-r-lg text-gray-700 placeholder-gray-500 focus:outline-none focus:border-3 focus:border-blue-600 text-lg"
           />
           
     
-          <button className="w-full sm:w-auto bg-red-600 text-white px-10 py-4 rounded-r-full hover:bg-gray-900 transition-colors duration-200 text-lg font-medium whitespace-nowrap">
+          <button className="w-full sm:w-auto bg-red-600 text-white px-2 py-3 md:px-8 md:py-4 rounded-r-full hover:bg-gray-900 transition-colors duration-200 text-lg font-medium whitespace-nowrap">
             SUBSCRIBE
           </button>
         </div>

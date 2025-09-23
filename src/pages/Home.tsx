@@ -22,7 +22,6 @@ const Home = () => {
     <HotDeal />
     <TopSelling />
     <TopCategories />
-  
     <Newsletter />
     <Footer />
     </>
