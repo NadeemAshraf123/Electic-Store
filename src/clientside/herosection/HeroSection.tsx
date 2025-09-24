@@ -4,9 +4,6 @@ import laptopP3 from "../../assets/images/laptopP3.png";
 import headphoneP from "../../assets/images/headphoneP.png";
 import cameraP from "../../assets/images/cameraP.png";
 
-
-
-
 const banners = [
   {
     title: "Laptop Collection",
@@ -27,7 +24,7 @@ const banners = [
 
 const Banner: React.FC = () => {
   return (
-    <section className="max-w-7xl mx-auto px-4 mt-20 py-8">
+    <section className="max-w-7xl mx-auto px-4 mt-10 py-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {banners.map((banner, index) => (
           <div

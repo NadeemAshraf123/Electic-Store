@@ -6,7 +6,7 @@ const Navbar: React.FC = () => {
     <div className="bg-black  shadow border-b-4 border-red-500">
       <div className="container max-w-7xl mx-auto px-3 py-3 sm:py-4">
         
-        <div className="lg:hidden">
+        <div className="md:hidden">
         
           <div className="flex justify-between items-center mb-3">
             <div className="text-3xl sm:text-4xl font-bold z-10">
@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
 
-        <div className="hidden lg:flex justify-between items-center">
+        <div className="hidden md:flex justify-between items-center">
           <div className="text-4xl xl:text-5xl font-bold">
             <span className="text-white">Electro</span>
             <span className="text-red-600">.</span>

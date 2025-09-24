@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
+import { Navigation, Autoplay } from 'swiper/modules';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 import 'swiper/css';
@@ -35,37 +35,40 @@ const TopSelling: React.FC = () => {
     { id: 6, image: tabletP, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
     { id: 7, image: headphone, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
     { id: 8, image: camera, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
-    { id: 9, image: laptopP2, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 }
+    { id: 9, image: laptopP2, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
+
+    { id: 10, image: tabletP, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
+    { id: 11, image: headphone, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
+    { id: 12, image: camera, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
+    { id: 13, image: laptopP2, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
+
+    { id: 14, image: tabletP, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
+    { id: 15, image: headphone, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
+    { id: 16, image: camera, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
+    { id: 17, image: laptopP2, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
+    { id: 6, image: tabletP, category: "CATEGORY", name: "PRODUCT NAME GOES HERE", currentPrice: 980.0, originalPrice: 990.0 },
+
   ];
 
- 
-  const poolMax = 6;
-  const desiredPoolForGivenProducts = Math.min(products.length, poolMax);
-  
-  const poolLength = desiredPoolForGivenProducts <= 3 ? 4 : desiredPoolForGivenProducts;
-
-
-  const startIndices = [0, 3, 6];
-
-  const buildColumn = (startIndex: number) => {
-   
-    return Array.from({ length: poolLength }, (_, i) => products[(startIndex + i) % products.length]);
+  const chunkProducts = (startIndex: number, chunkSize: number): Product[][] => {
+    const chunked: Product[][] = [];
+    for (let i = startIndex; i < products.length; i += chunkSize) {
+      chunked.push(products.slice(i, i + chunkSize));
+    }
+    return chunked;
   };
 
-  const columns: Product[][] = startIndices.map((start) => buildColumn(start));
+  const columnChunks = [0, 3, 6].map((start) => chunkProducts(start, 3));
 
   const ProductItem: React.FC<{ product: Product }> = ({ product }) => (
-    <div className="flex  items-center gap-2 h-24">
-      <div className="w-16 h-16 bg-gray-100 rounded flex-shrink-0 overflow-hidden">
+
+    <div className="flex items-center gap-2 h-24">
+      <div className="w-16 h-16 bg-gray-100 rounded overflow-hidden flex-shrink-0">
         <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
       </div>
       <div className="flex-1">
-        <div className="text-xs text-gray-400 font-medium mb-1 tracking-wider">
-          {product.category}
-        </div>
-        <div className="text-sm font-semibold text-gray-800 mb-2 leading-tight">
-          {product.name}
-        </div>
+        <div className="text-xs text-gray-400 font-medium mb-1 tracking-wider">{product.category}</div>
+        <div className="text-sm font-semibold text-gray-800 mb-2 leading-tight">{product.name}</div>
         <div className="flex items-center gap-2">
           <span className="text-red-500 font-bold text-sm">${product.currentPrice.toFixed(2)}</span>
           <span className="text-gray-400 text-xs line-through">${product.originalPrice.toFixed(2)}</span>
@@ -74,44 +77,51 @@ const TopSelling: React.FC = () => {
     </div>
   );
 
-  const ColumnSection: React.FC<{ products: Product[] }> = ({ products }) => {
+  const ColumnSection: React.FC<{ productGroups: Product[][]; autoplayDelay?: number }> = ({ productGroups, autoplayDelay = 3000 }) => {
     const swiperRef = useRef<any>(null);
 
     return (
-      <div className="bg-white rounded-lg p-6 border border-gray-100">
+      <div className="  bg-white rounded-lg p-6 border-gray-100">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-lg font-bold text-gray-800 tracking-wide">TOP SELLING</h2>
           <div className="flex gap-2">
             <button
               type="button"
               onClick={() => swiperRef.current?.slidePrev()}
-              className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
+              className="w-8 h-8  bg-red-500 rounded-full border border-gray-200 flex items-center justify-center hover:bg-red-700 transition-colors"
             >
-              <ChevronLeft className="w-4 h-4 text-gray-400" />
+              <ChevronLeft className="w-4 h-4 text-white" />
             </button>
             <button
               type="button"
               onClick={() => swiperRef.current?.slideNext()}
-              className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition-colors"
+              className="w-8 h-8 rounded-full  bg-red-500 border border-gray-200 flex items-center justify-center hover:bg-red-700 transition-colors"
             >
-              <ChevronRight className="w-4 h-4 text-gray-400" />
+              <ChevronRight className="w-4 h-4 text-white" />
             </button>
           </div>
         </div>
 
         <Swiper
-          modules={[Navigation]}
-          direction="horizontal"
-          slidesPerView={3}
+          modules={[Navigation, Autoplay]}
+          slidesPerView={1}
           slidesPerGroup={1}
           spaceBetween={12}
-          loop={products.length > 3}
+          loop={productGroups.length > 1}
+          autoplay={{
+            delay: autoplayDelay,
+            disableOnInteraction: false,
+          }}
           onSwiper={(swiper) => (swiperRef.current = swiper)}
-          className="h-80"
+          className="h-[300px]"
         >
-          {products.map((p, idx) => (
-            <SwiperSlide key={`${p.id}-${idx}`}>
-              <ProductItem product={p} />
+          {productGroups.map((group, idx) => (
+            <SwiperSlide key={idx}>
+              <div className="space-y-4">
+                {group.map((product) => (
+                  <ProductItem key={product.id} product={product} />
+                ))}
+              </div>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -120,10 +130,15 @@ const TopSelling: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className=" w-full mx-auto max-w-7xl container px-4 py-8">
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {columns.map((col, idx) => (
-          <ColumnSection key={idx} products={col} />
+        {columnChunks.map((group, idx) => (
+          <ColumnSection 
+          key={idx} 
+          productGroups={group}
+          autoplayDelay={idx === 0 ? 2000 : idx === 1 ? 4000 : 3000} 
+          />
         ))}
       </div>
     </div>

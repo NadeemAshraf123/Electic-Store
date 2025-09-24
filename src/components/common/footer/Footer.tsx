@@ -35,11 +35,11 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4 uppercase">Categories</h3>
             <ul className="text-gray-400 text-sm space-y-2">
-              <li className="hover:text-white cursor-pointer transition-colors">Hot deals</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Laptops</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Smartphones</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Cameras</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Accessories</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Hot deals</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Laptops</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Smartphones</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Cameras</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Accessories</li>
             </ul>
           </div>
 
@@ -47,10 +47,10 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4 uppercase">Information</h3>
             <ul className="text-gray-400 text-sm space-y-2">
-              <li className="hover:text-white cursor-pointer transition-colors">Contact Us</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Privacy Policy</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Orders and Returns</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Terms & Conditions</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Contact Us</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Privacy Policy</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Orders and Returns</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Terms & Conditions</li>
             </ul>
           </div>
 
@@ -58,18 +58,18 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4 uppercase">Service</h3>
             <ul className="text-gray-400 text-sm space-y-2">
-              <li className="hover:text-white cursor-pointer transition-colors">My Account</li>
-              <li className="hover:text-white cursor-pointer transition-colors">View Cart</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Walnist</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Trade by Order</li>
-              <li className="hover:text-white cursor-pointer transition-colors">Help</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">My Account</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">View Cart</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Walnist</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Trade by Order</li>
+              <li className="hover:text-red-500 cursor-pointer transition-colors">Help</li>
             </ul>
           </div>
         </div>
         
       
         <div className="border-t border-gray-700 mt-8 pt-8">
-          <p className="text-gray-400 text-sm text-center">
+          <p className="text-gray-400 hover:text-white cursor-pointer text-sm text-center">
             © 2024 Your Company Name. All rights reserved.
           </p>
         </div>

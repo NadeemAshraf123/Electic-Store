@@ -16,11 +16,17 @@ const HotDeal: React.FC = () => {
 
         if (seconds > 0) seconds--;
         else if (minutes > 0) {
-          minutes--; seconds = 59;
+          minutes--;
+          seconds = 59;
         } else if (hours > 0) {
-          hours--; minutes = 59; seconds = 59;
+          hours--;
+          minutes = 59;
+          seconds = 59;
         } else if (days > 0) {
-          days--; hours = 23; minutes = 59; seconds = 59;
+          days--;
+          hours = 23;
+          minutes = 59;
+          seconds = 59;
         }
 
         return { days, hours, minutes, seconds };
@@ -31,19 +37,17 @@ const HotDeal: React.FC = () => {
   }, []);
 
   return (
-    <section 
-      className="p-4 mt-20 mb-15 min-h-[400px] flex items-center"
+    <section
+      className="p-4 mt-5 min-h-[400px] flex items-center"
       style={{
         backgroundImage: `url(${hotdeal})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <div className="container w-full mx-auto my-12">
         <div className="max-w-2xl mx-auto text-center space-y-8">
-          
-        
           <div className="flex justify-center gap-2">
             {Object.entries(timeLeft).map(([unit, value]) => (
               <div
@@ -56,18 +60,15 @@ const HotDeal: React.FC = () => {
             ))}
           </div>
 
-          
           <h2 className="text-3xl font-bold uppercase text-gray-800">
             Hot Deal This Week
           </h2>
 
-        
           <p className="text-lg text-gray-600">
             New Collection Up to{" "}
             <span className="text-red-600 font-semibold">50% OFF</span>
           </p>
 
-        
           <button className="bg-red-600 text-white font-semibold px-6 py-2 rounded-full hover:bg-red-700 transition">
             Shop Now
           </button>
