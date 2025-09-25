@@ -101,9 +101,9 @@ const TopSelling: React.FC = () => {
 
   return (
     <section className="py-12 bg-white max-w-7xl mt-10 mx-auto relative px-4">
-      <div className="flex flex-col lg:flex-row items-center justify-between mb-8">
-        <h2 className="text-2xl font-bold mb-4 lg:mb-0">Top Selling</h2>
-        <div className="flex flex-wrap justify-center gap-4 lg:gap-6 text-gray-600 font-medium">
+      <div className="flex flex-col lg:flex-row items-start md:flex-row justify-between md:mb-4 mb-8">
+        <h2 className="text-2xl font-bold mb-4 lg:mb-0">TOP SELLING</h2>
+        <div className="flex flex-wrap justify-left font-bold gap-3 lg:gap-6 text-[#8C99AE]">
           {["Laptops", "Smartphones", "Cameras", "Accessories"].map(
             (label, index) => (
               <button
@@ -145,8 +145,8 @@ const TopSelling: React.FC = () => {
               spaceBetween: 20,
             },
             768: {
-              slidesPerView: 3,
-              spaceBetween: 24,
+              slidesPerView: 2,
+              spaceBetween: 70,
             },
             1024: {
               slidesPerView: 4,
@@ -162,12 +162,12 @@ const TopSelling: React.FC = () => {
             <SwiperSlide key={product.id}>
               <div className="group ">
                 <div
-                  className="product-card hover:cursor-pointer hover:border-red-500 w-[270px] border-1 border-gray-300 
-                             overflow-hidden transition-all duration-300 bg-white relative flex flex-col h-[470px] mx-auto"
+                  className="product-card hover:cursor-pointer hover:border-red-500 w-[330px] md:w-[330px] lg:w-[100%] border-1 border-gray-300 
+                             overflow-hidden transition-all duration-300 bg-white relative flex flex-col h-[490px] md:h-[490px] mx-auto"
                 >
                   {product.badge && (
                     <span
-                      className={`absolute top-3 left-3 px-3 py-1 text-sm rounded z-10 ${
+                      className={`absolute top-3 left-3 px-4 py-1 text-sm z-10 ${
                         product.badge === "NEW" ? "bg-red-600  text-white" : "border border-red-500 text-red-500"
                       }`}
                     >
@@ -247,15 +247,15 @@ const TopSelling: React.FC = () => {
           <div className="flex space-x-2">
             <button
               onClick={handlePrev}
-              className="bg-red-600 text-white p-3 rounded-full hover:bg-red-700 transition-all duration-200 shadow-md flex items-center justify-center"
+              className="bg-transparent text-gray-400 border p-3 rounded-full hover:bg-red-700 transition-all duration-200 shadow-md flex items-center justify-center"
             >
-              <FaChevronLeft className="h-4 w-4" />
+              <FaChevronLeft className="h-2 w-2 md:h-3 md:w-3" />
             </button>
             <button
               onClick={handleNext}
-              className="bg-red-600 text-white p-3 rounded-full hover:bg-red-700 transition-all duration-200 shadow-md flex items-center justify-center"
+              className="bg-transparent text-gray-400 border p-3 rounded-full hover:bg-red-700 transition-all duration-200 shadow-md flex items-center justify-center"
             >
-              <FaChevronRight className="h-4 w-4" />
+              <FaChevronRight className="h-2 w-2 md:h-3 md:w-3" />
             </button>
           </div>
         </div>

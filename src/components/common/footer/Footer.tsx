@@ -1,12 +1,25 @@
 import React from 'react';
 import { Mail, Phone, MapPin } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import {
+  faCcVisa,
+  faCcMastercard,
+  faCcAmex,
+  faCcDiscover,
+  faCcPaypal,
+} from "@fortawesome/free-brands-svg-icons";
+import { faCreditCard } from "@fortawesome/free-regular-svg-icons";
+
 
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-900 text-white py-8 px-4 border-t-4 border-[#c8253a] mt-20">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-20">
+    <>
+    <footer >
+      <div className="bg-gray-900 text-white py-8 px-4 border-t-4 border-[#c8253a] mt-20">    
+          <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20">
       
           <div>
             <h3 className="text-lg font-semibold mb-4 uppercase">About Us</h3>
@@ -66,15 +79,25 @@ const Footer: React.FC = () => {
             </ul>
           </div>
         </div>
-        
-      
-        <div className="border-t border-gray-700 mt-8 pt-8">
-          <p className="text-gray-400 hover:text-white cursor-pointer text-sm text-center">
-            © 2024 Your Company Name. All rights reserved.
-          </p>
-        </div>
+      </div>
       </div>
     </footer>
+
+  <div className=" py-6"
+   style={{ backgroundColor: 'black' }}
+  >
+    <div className="flex justify-center gap-6 text-gray-400 py-10 text-3xl">
+      <FontAwesomeIcon icon={faCcVisa} className="hover:text-blue-600 transition-colors cursor-pointer" />
+      <FontAwesomeIcon icon={faCcMastercard} className="hover:text-red-600 transition-colors cursor-pointer" />
+      <FontAwesomeIcon icon={faCcAmex} className="hover:text-blue-400 transition-colors cursor-pointer" />
+      <FontAwesomeIcon icon={faCcDiscover} className="hover:text-orange-600 transition-colors cursor-pointer" />
+      <FontAwesomeIcon icon={faCcPaypal} className="hover:text-blue-500 transition-colors cursor-pointer" />
+    </div>
+  </div>
+  
+  
+</>
+
   );
 };
 

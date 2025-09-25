@@ -24,8 +24,8 @@ const banners = [
 
 const Banner: React.FC = () => {
   return (
-    <section className="max-w-7xl mx-auto px-4 mt-10 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section className="max-w-7xl mx-auto px-4 mt-10 md:mt-5 py-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-7 md:gap-10 gap-6">
         {banners.map((banner, index) => (
           <div
             key={index}
@@ -37,7 +37,9 @@ const Banner: React.FC = () => {
               className="w-full h-full object-cover  bg-[#e4e7ed] transform transition-transform duration-500 group-hover:scale-105"
             />
 
-            <div className="absolute inset-0 clip-diagonal" />
+            <div className="absolute inset-0"
+            style={{ background: 'linear-gradient(130deg, #ff0000c2 0%, 55%, transparent 0%)'}}
+            />
 
             <div className="absolute top-6 left-6 text-left">
               <h3 className="text-white font-bold text-lg">{banner.title}</h3>

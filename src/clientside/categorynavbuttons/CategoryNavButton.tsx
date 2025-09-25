@@ -17,7 +17,7 @@ const CategoryNavButton: React.FC = () => {
   ];
 
   return (
-    <div className="bg-white border-t border-b border-gray-200">
+    <div className="md:hidden lg:block bg-white border-t border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4">
         
         <ul className="hidden md:flex space-x-4 lg:space-x-6 xl:space-x-8 text-sm font-medium overflow-x-auto py-1">
@@ -92,7 +92,7 @@ const CategoryNavButton: React.FC = () => {
         </div>
 
       
-        <div className="hidden sm:flex md:hidden overflow-x-auto py-3 scrollbar-hide">
+        {/* <div className="hidden sm:flex md:hidden overflow-x-auto py-3 scrollbar-hide">
           <div className="flex space-x-6 min-w-max">
             {navItems.map((item) => (
               <button
@@ -118,7 +118,7 @@ const CategoryNavButton: React.FC = () => {
               </button>
             ))}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

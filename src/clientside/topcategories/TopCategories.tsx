@@ -88,16 +88,16 @@ const TopSelling: React.FC = () => {
             <button
               type="button"
               onClick={() => swiperRef.current?.slidePrev()}
-              className="w-8 h-8  bg-red-500 rounded-full border border-gray-200 flex items-center justify-center hover:bg-red-700 transition-colors"
+              className="w-8 h-8 bg-transparent text-gray-300 border md:bg-red-500 rounded-full flex items-center justify-center hover:bg-red-700 transition-colors"
             >
-              <ChevronLeft className="w-4 h-4 text-white" />
+              <ChevronLeft className="w-4 h-4 " />
             </button>
             <button
               type="button"
               onClick={() => swiperRef.current?.slideNext()}
-              className="w-8 h-8 rounded-full  bg-red-500 border border-gray-200 flex items-center justify-center hover:bg-red-700 transition-colors"
+              className="w-8 h-8 rounded-full bg-transparent text-gray-300 border md:bg-red-500 flex items-center justify-center hover:bg-red-700 transition-colors"
             >
-              <ChevronRight className="w-4 h-4 text-white" />
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -117,7 +117,7 @@ const TopSelling: React.FC = () => {
         >
           {productGroups.map((group, idx) => (
             <SwiperSlide key={idx}>
-              <div className="space-y-4">
+              <div className="md:space-y-4">
                 {group.map((product) => (
                   <ProductItem key={product.id} product={product} />
                 ))}
@@ -130,9 +130,9 @@ const TopSelling: React.FC = () => {
   };
 
   return (
-    <div className=" w-full mx-auto max-w-7xl container px-4 py-8">
+    <div className=" w-full mx-auto max-w-7xl container px-4">
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)] ">
         {columnChunks.map((group, idx) => (
           <ColumnSection 
           key={idx} 
