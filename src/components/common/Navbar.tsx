@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
           </div>
 
           <div className="flex justify-center mb-3 lg:mb-0 lg:h-[70%] lg:mt-5 ">
-            <select className="px-2 py-4 lg:py-0 text-sm text-gray-600 border border-gray-300 border-r-1 rounded-l-full bg-white outline-none w-32">
+            <select className="px-2 py-4 lg:py-0 text-xs text-gray-600 border border-gray-300 border-r-1 rounded-l-full bg-white outline-none w-32">
               <option>All Categories</option>
               <option>Laptops</option>
               <option>Smartphones</option>
@@ -26,10 +26,10 @@ const Navbar: React.FC = () => {
             <input
               type="text"
               placeholder="Search Here"
-              className=" py-3 md:py-0 md:text-left md:pl-2 md:text-xl bg-white text-center outline-none lg:w-sm lg:py-2 w-full text-sm lg:text-sm border border-gray-300 border-r-0 border-l-0"
+              className="text-xs py-3 md:py-0 md:text-left md:pl-2 md:text-xl bg-white text-center outline-none lg:w-sm lg:py-2 w-full text-sm lg:text-sm border border-gray-300 border-r-0 border-l-0"
             />
             
-            <button className="bg-red-600 text-white px-7 lg:px-2 rounded-r-full text-sm font-bold hover:bg-red-700 transition border border-red-600">
+            <button className="bg-red-600 text-white px-5 lg:px-2 rounded-r-full text-sm font-bold hover:bg-red-700 transition border border-red-600">
               Search
             </button>
           </div>

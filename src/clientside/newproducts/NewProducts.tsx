@@ -270,7 +270,7 @@ const NewProducts: React.FC = () => {
             <SwiperSlide key={product.id}>
               <div className="group">
                 <div
-                  className="product-card hover:cursor-pointer hover:border-red-500 w-[330px] md:w-[330px] lg:w-[100%] border-1 border-gray-300 
+                  className="product-card hover:cursor-pointer hover:border-red-500 w-[270px] md:w-[330px] lg:w-[100%] border-1 border-gray-300 
                              overflow-hidden transition-all duration-300 bg-white relative flex flex-col h-[490px] md:h-[490px] mx-auto"
                 >
                   {product.badge && (
