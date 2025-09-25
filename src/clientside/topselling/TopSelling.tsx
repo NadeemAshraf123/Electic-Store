@@ -162,13 +162,13 @@ const TopSelling: React.FC = () => {
             <SwiperSlide key={product.id}>
               <div className="group ">
                 <div
-                  className="product-card hover:cursor-pointer hover:border-red-500 w-full border-1 border-gray-300 
-                  rounded-lg overflow-hidden transition-all duration-300 bg-white relative flex flex-col h-[470px] mx-auto"
+                  className="product-card hover:cursor-pointer hover:border-red-500 w-[270px] border-1 border-gray-300 
+                             overflow-hidden transition-all duration-300 bg-white relative flex flex-col h-[470px] mx-auto"
                 >
                   {product.badge && (
                     <span
-                      className={`absolute top-3 left-3 px-2 py-1 text-xs font-bold text-white rounded z-10 ${
-                        product.badge === "NEW" ? "bg-green-600" : "bg-red-600"
+                      className={`absolute top-3 left-3 px-3 py-1 text-sm rounded z-10 ${
+                        product.badge === "NEW" ? "bg-red-600  text-white" : "border border-red-500 text-red-500"
                       }`}
                     >
                       {product.badge}
@@ -187,11 +187,11 @@ const TopSelling: React.FC = () => {
                     <p className="text-xs text-center text-gray-500 uppercase tracking-wide">
                       {product.category}
                     </p>
-                    <h3 className="font-semibold text-center text-gray-800 text-sm line-clamp-2 min-h-[20px] mt-1">
+                    <h3 className="font-bold text-center text-gray-800 text-xl line-clamp-2 min-h-[20px]">
                       {product.name}
                     </h3>
-                    <div className="flex items-center justify-center space-x-2 mt-2">
-                      <span className="text-red-600 font-bold text-lg">
+                    <div className="flex items-center justify-center space-x-2">
+                      <span className="text-red-600 font-bold text-xl mt-1">
                         ${product.price.toFixed(2)}
                       </span>
                       {product.oldPrice && (
@@ -207,7 +207,7 @@ const TopSelling: React.FC = () => {
                         {Array.from({ length: 5 }).map((_, i) => (
                           <FaStar
                             key={i}
-                            className={`h-3 w-3 ${
+                            className={`h-4 w-4 ${
                               i < product.rating
                                 ? "text-red-500"
                                 : "text-gray-300"
@@ -219,22 +219,22 @@ const TopSelling: React.FC = () => {
 
                     <div className="flex-grow"></div>
 
-                    <div className="flex justify-center gap-6 w-full text-gray-500 py-1">
+                    <div className="flex justify-center gap-6 w-full text-gray-500 py-4">
                       <button className="p-1 hover:text-red-600 transition-colors duration-200">
-                        <FaHeart className="h-3 w-3" />
+                        <FaHeart className="h-4 w-4" />
                       </button>
-                      <button className="p-1 hover:text-red-600 transition-colors duration-200">
-                        <FaExchangeAlt className="h-3 w-3" />
+                      <button className="hover:text-red-600 transition-colors duration-200">
+                        <FaExchangeAlt className="h-4 w-4" />
                       </button>
-                      <button className="p-1 hover:text-red-600 transition-colors duration-200">
-                        <FaEye className="h-3 w-3" />
+                      <button className="hover:text-red-600 transition-colors duration-200">
+                        <FaEye className="h-4 w-4" />
                       </button>
                     </div>
                   </div>
                 </div>
 
-                <div className="py-3 bg-[black] text-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
-                  <button className=" bg-red-500 hover:cursor-pointer rounded-full py-3 px-6   text-white  text-sm font-semibold transition-colors duration-300 shadow-lg">
+                <div className="py-2 bg-[black] text-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                  <button className=" bg-red-500 hover:cursor-pointer rounded-full py-1.5 px-4.5 text-white  text-sm font-semibold transition-colors duration-300 shadow-lg">
                     ADD TO CART
                   </button>
                 </div>

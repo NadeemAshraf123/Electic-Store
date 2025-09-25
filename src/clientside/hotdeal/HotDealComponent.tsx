@@ -38,7 +38,7 @@ const HotDeal: React.FC = () => {
 
   return (
     <section
-      className="p-4 mt-5 min-h-[400px] flex items-center"
+      className="p-4 mt-5 lg:min-h-[600px] flex items-center"
       style={{
         backgroundImage: `url(${hotdeal})`,
         backgroundSize: "cover",

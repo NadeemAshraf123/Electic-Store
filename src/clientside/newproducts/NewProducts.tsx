@@ -210,13 +210,13 @@ const NewProducts: React.FC = () => {
   return (
     <section className="py-12 bg-white max-w-7xl mt-10 mx-auto relative px-4">
       <div className="flex flex-col lg:flex-row items-center justify-between mb-8">
-        <h2 className="text-2xl font-bold mb-4 lg:mb-0">NEW PRODUCTS</h2>
+        <h2 className="text-3xl font-bold mb-4 lg:mb-0">NEW PRODUCTS</h2>
         <div className="flex flex-wrap justify-center gap-4 lg:gap-6 text-gray-600 font-medium">
           {["Laptops", "Smartphones", "Cameras", "Accessories"].map(
             (label, index) => (
               <button
                 key={index}
-                className="relative hover:text-red-600 hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-[2px] hover:after:bg-red-600 cursor-pointer whitespace-nowrap"
+                className="relative font-bold hover:text-red-600 hover:after:absolute hover:after:-bottom-1 hover:after:left-0 hover:after:w-full hover:after:h-[2px] hover:after:bg-red-600 cursor-pointer whitespace-nowrap"
               >
                 {label}
               </button>
@@ -270,20 +270,20 @@ const NewProducts: React.FC = () => {
             <SwiperSlide key={product.id}>
               <div className="group">
                 <div
-                  className="product-card hover:cursor-pointer hover:border-red-500 w-full border-1 border-gray-300 
-                            rounded-lg overflow-hidden transition-all duration-300 bg-white relative flex flex-col h-[480px] mx-auto"
+                  className="product-card hover:cursor-pointer hover:border-red-500 w-[270px] border-1 border-gray-300 
+                             overflow-hidden transition-all duration-300 bg-white relative flex flex-col h-[470px] mx-auto"
                 >
                   {product.badge && (
                     <span
-                      className={`absolute top-3 left-3 px-2 py-1 text-xs font-bold text-white rounded z-10 ${
-                        product.badge === "NEW" ? "bg-green-600" : "bg-red-600"
+                      className={`absolute top-3 left-3 px-2 py-1 text-sm rounded z-10 ${
+                        product.badge === "NEW" ? "bg-red-600 text-white" : " border border-red-600 text-red-600"
                       }`}
                     >
                       {product.badge}
                     </span>
                   )}
 
-                  <div className="p-4 pb-0 mb-8 flex justify-center items-center bg-gray-50 min-h-[200px]">
+                  <div className="py-4 pb-0 mb-8 flex justify-center items-center bg-gray-50 min-h-[200px]">
                     <img
                       src={product.image}
                       alt={product.name}
@@ -292,30 +292,30 @@ const NewProducts: React.FC = () => {
                   </div>
 
                   <div className="p-4 flex flex-col flex-grow">
-                    <p className="text-xs text-center text-gray-500 uppercase tracking-wide">
+                    <p className="text-sm text-center text-gray-500 uppercase tracking-wide">
                       {product.category}
                     </p>
-                    <h3 className="font-semibold text-center text-gray-800 text-sm line-clamp-2 min-h-[20px] mt-1">
+                    <h3 className="font-bold text-center text-gray-800 text-xl line-clamp-2 min-h-[20px]">
                       {product.name}
                     </h3>
-                    <div className="flex items-center justify-center space-x-2 mt-2">
-                      <span className="text-red-600 font-bold text-lg">
+                    <div className="flex items-center mt-1 justify-center space-x-2">
+                      <span className="text-red-600 font-bold text-2xl">
                         ${product.price.toFixed(2)}
                       </span>
                       {product.oldPrice && (
-                        <span className="text-gray-400 line-through text-sm">
+                        <span className="text-gray-400 line-through text-lg">
                           ${product.oldPrice.toFixed(2)}
                         </span>
                       )}
                     </div>
 
-                    <div className="relative flex items-center justify-center mt-4 py-2">
-                      <hr className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 w-full border-gray-200" />
+                    <div className="relative flex items-center justify-center mt-2">
+                      <hr className="absolute left-0 right-0 top-1/2 transform -translate-y-1/2 w-[250px] border-gray-300" />
                       <div className="relative z-10 bg-white px-3 flex space-x-1">
                         {Array.from({ length: 5 }).map((_, i) => (
                           <FaStar
                             key={i}
-                            className={`h-3 w-3 ${
+                            className={`h-4 w-4 ${
                               i < product.rating
                                 ? "text-red-500"
                                 : "text-gray-300"
@@ -327,22 +327,22 @@ const NewProducts: React.FC = () => {
 
                     <div className="flex-grow"></div>
 
-                    <div className="flex justify-center gap-6 w-full text-gray-500 py-1">
-                      <button className="p-1 hover:text-red-600 transition-colors duration-200">
-                        <FaHeart className="h-3 w-3" />
+                    <div className="flex justify-center py-4 text-gray-500 gap-6 w-full ">
+                      <button className="p-1 bg-white hover:text-red-600 transition-colors duration-200">
+                        <FaHeart className="h-4 w-4" />
                       </button>
                       <button className="p-1 hover:text-red-600 transition-colors duration-200">
-                        <FaExchangeAlt className="h-3 w-3" />
+                        <FaExchangeAlt className="h-4 w-4" />
                       </button>
                       <button className="p-1 hover:text-red-600 transition-colors duration-200">
-                        <FaEye className="h-3 w-3" />
+                        <FaEye className="h-4 w-4" />
                       </button>
                     </div>
                   </div>
                 </div>
 
-                <div className="py-3 bg-[black] text-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
-                  <button className="bg-red-500 hover:cursor-pointer rounded-full py-3 px-6 text-white text-sm font-semibold transition-colors duration-300 shadow-lg">
+                <div className="py-2 bg-[black] w-full text-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                  <button className="bg-red-500 hover:cursor-pointer rounded-full py-1 px-4 text-white text-sm font-semibold transition-colors duration-300 shadow-lg">
                     ADD TO CART
                   </button>
                 </div>
@@ -351,7 +351,7 @@ const NewProducts: React.FC = () => {
           ))}
         </Swiper>
 
-        <div className="flex justify-end mt-4">
+        <div className="flex justify-end">
           <div className="flex space-x-2">
             <button
               onClick={handlePrev}
