@@ -1,0 +1,120 @@
+{
+  "students": [
+    {
+      "id": "6",
+      "name": "Usman Tariq",
+      "age": 18,
+      "grade": "12th",
+      "email": "usman.tariq@example.com",
+      "courses": [
+        "Physics",
+        "Chemistry",
+        "English"
+      ],
+      "attendance": "Present"
+    },
+    {
+      "id": "7",
+      "name": "Hina Shah",
+      "age": 16,
+      "grade": "10th",
+      "email": "hina.shah@example.com",
+      "courses": [
+        "Computer Science",
+        "Math",
+        "English"
+      ],
+      "attendance": "Present"
+    },
+    {
+      "id": "8",
+      "name": "Zain Ali",
+      "age": 17,
+      "grade": "11th",
+      "email": "zain.ali@example.com",
+      "courses": [
+        "Economics",
+        "History",
+        "Urdu"
+      ],
+      "attendance": "Absent"
+    },
+    {
+      "id": "9",
+      "name": "Mehwish Iqbal",
+      "age": 15,
+      "grade": "9th",
+      "email": "mehwish.iqbal@example.com",
+      "courses": [
+        "Biology",
+        "Islamiyat",
+        "English"
+      ],
+      "attendance": "Present"
+    },
+    {
+      "id": "10",
+      "name": "Hamza Yousaf",
+      "age": 18,
+      "grade": "12th",
+      "email": "hamza.yousaf@example.com",
+      "courses": [
+        "Math",
+        "Physics",
+        "Computer Science"
+      ],
+      "attendance": "Absent"
+    },
+    {
+      "id": "4f5d",
+      "name": "Nadeem Ashraf",
+      "age": 27,
+      "grade": "12th",
+      "email": "nadeemashraf0022@gmail.com",
+      "courses": [
+        "physics",
+        "chemistry",
+        "urdu",
+        ""
+      ],
+      "attendance": "Absent"
+    },
+    {
+      "id": "252c",
+      "name": "Anwar Alam",
+      "age": 32,
+      "grade": "12th",
+      "email": "amirshakeeliub@gmail.com",
+      "courses": [
+        "phy",
+        "che",
+        "math",
+        "urdu",
+        "English"
+      ],
+      "attendance": "Present"
+    },
+    {
+      "id": "29aa",
+      "name": "Abdullah",
+      "age": 30,
+      "grade": "12th",
+      "email": "amirshakeeliub@gmail.com",
+      "courses": [
+        "phy"
+      ],
+      "attendance": "Present"
+    },
+    {
+      "id": "5320",
+      "name": "N",
+      "age": 10,
+      "grade": "12th",
+      "email": "amirshakeeliub@gmail.com",
+      "courses": [
+        "phy"
+      ],
+      "attendance": "Absent"
+    }
+  ]
+}
