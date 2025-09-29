@@ -27,7 +27,7 @@ const AddStudentForm: React.FC = () => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  // ✅ validation rules
+
   const validate = () => {
     const newErrors: Record<string, string> = {};
     if (!student.name.trim()) newErrors.name = "Name is required";
@@ -68,13 +68,13 @@ const AddStudentForm: React.FC = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-lg space-y-6"
+      className="max-w-3xl mx-auto p-8 bg-white shadow-lg rounded-lg space-y-6 mt-40 shadow-"
     >
       <h2 className="text-3xl font-bold text-center mb-6">
         Student Record Form
       </h2>
 
-      {/* Full Name */}
+    
       <div>
         <label className="block font-semibold mb-1">Full Name</label>
         <input
@@ -91,7 +91,7 @@ const AddStudentForm: React.FC = () => {
         )}
       </div>
 
-      {/* Age and Grade */}
+  
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block font-semibold mb-1">Age</label>
@@ -125,7 +125,7 @@ const AddStudentForm: React.FC = () => {
         </div>
       </div>
 
-      {/* Email */}
+  
       <div>
         <label className="block font-semibold mb-1">Email</label>
         <input
@@ -142,7 +142,7 @@ const AddStudentForm: React.FC = () => {
         )}
       </div>
 
-      {/* Courses */}
+    
       <div>
         <label className="block font-semibold mb-1">
           Courses (comma separated)
@@ -166,7 +166,7 @@ const AddStudentForm: React.FC = () => {
         )}
       </div>
 
-      {/* Attendance */}
+    
       <div>
         <label className="block font-semibold mb-1">Attendance</label>
         <select
@@ -184,7 +184,7 @@ const AddStudentForm: React.FC = () => {
         </select>
       </div>
 
-      {/* Submit */}
+
       <button
         type="submit"
         className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
