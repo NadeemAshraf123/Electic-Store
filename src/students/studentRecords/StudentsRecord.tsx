@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-type Student = {
-  id: number;
-  name: string;
-  age: number;
-  grade: string;
-  email: string;
-  courses: string[];
-  attendance: "Present" | "Absent";
-};
+import { useSelector, useDispatch } from "react-redux";
+import {
+  openModal,
+  closeModal,
+  setSearchTerm,
+  setSelectedGrade,
+  setSelectedAttendance,
+  setOrderedStudents,
+  setErrors,
+} from "../../components/RQComponents/features/StudentSlice";
+import type { RootState } from "../../App/StudentStore";
+import type { Student } from "../../components/RQComponents/features/StudentSlice";
 
 const fetchStudents = async (): Promise<Student[]> => {
   const res = await axios.get("http://localhost:3000/students");
@@ -19,16 +21,19 @@ const fetchStudents = async (): Promise<Student[]> => {
 };
 
 const StudentsRecord: React.FC = () => {
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
+  const dispatch = useDispatch();
+  const {
+    isModalOpen,
+    selectedStudent,
+    searchTerm,
+    selectedGrade,
+    selectedAttendance,
+    orderedStudents,
+    errors,
+  } = useSelector((state: RootState) => state.students);
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedGrade, setSelectedGrade] = useState("");
-  const [selectedAttendance, setSelectedAttendance] = useState("");
-  const [orderedStudents, setOrderedStudents] = useState<Student[]>([]);
-
- 
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const {
     data: students,
@@ -39,21 +44,11 @@ const StudentsRecord: React.FC = () => {
     queryFn: fetchStudents,
   });
 
+  const updateStudent = async (student: Student) =>
+    axios.put(`http://localhost:3000/students/${student.id}`, student);
 
- React.useEffect(() => {
-    if (students) setOrderedStudents(students);
-  }, [students]);
-
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-
-  const updateStudent = async (student: Student) => {
-    await axios.put(`http://localhost:3000/students/${student.id}`, student);
-  };
-
-  const deleteStudent = async (id: number) => {
-    await axios.delete(`http://localhost:3000/students/${id}`);
-  };
+  const deleteStudent = async (id: number) =>
+    axios.delete(`http://localhost:3000/students/${id}`);
 
   const deleteMutation = useMutation({
     mutationFn: deleteStudent,
@@ -64,9 +59,45 @@ const StudentsRecord: React.FC = () => {
     mutationFn: updateStudent,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["students"] });
-      setIsModalOpen(false);
+      dispatch(closeModal());
     },
   });
+
+  React.useEffect(() => {
+    if (students) {
+      dispatch(setOrderedStudents(students));
+    }
+  }, [students, dispatch]);
+
+  const filteredStudents = orderedStudents?.filter((student) => {
+    const matchesSearch =
+      student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      student.email.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesGrade =
+      selectedGrade === "" || student.grade === selectedGrade;
+
+    const matchesAttendance =
+      selectedAttendance === "" || student.attendance === selectedAttendance;
+
+    return matchesSearch && matchesGrade && matchesAttendance;
+  });
+
+  const uniqueGrades = Array.from(
+    new Set(students?.map((student) => student.grade))
+  );
+
+  const totalStudents = filteredStudents.length;
+  const presentCount = filteredStudents.filter(
+    (s) => s.attendance === "Present"
+  ).length;
+  const absentCount = totalStudents - presentCount;
+  const attendancePercentage =
+    totalStudents > 0 ? ((presentCount / totalStudents) * 100).toFixed(2) : "0";
+  const presentPercentage =
+    totalStudents > 0 ? ((presentCount / totalStudents) * 100).toFixed(2) : "0";
+  const absentPercentage =
+    totalStudents > 0 ? ((absentCount / totalStudents) * 100).toFixed(2) : "0";
 
   if (isLoading)
     return (
@@ -80,36 +111,6 @@ const StudentsRecord: React.FC = () => {
         Error fetching student records.
       </p>
     );
-
-  const filteredStudents = orderedStudents?.filter((student) => {
-    const matchesSearch =
-      student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      student.email.toLowerCase().includes(searchTerm.toLowerCase());
-
-    const matchesGrade =
-      selectedGrade === "" || student.grade === selectedGrade;
-      console.log("matchesGrade", matchesGrade);
-
-    const matchesAttendance =
-      selectedAttendance === "" || student.attendance === selectedAttendance;
-
-    return matchesSearch && matchesGrade && matchesAttendance;
-  });
-
-  const uniqueGrades = Array.from(
-    new Set(students?.map((student) => student.grade))
-  );
-  
-  const totalStudents = filteredStudents.length;
-  const presentCount = filteredStudents.filter(s => s.attendance === "Present").length;
-  const absentCount = totalStudents - presentCount;
-  const attendancePercentage = totalStudents > 0 ? ((presentCount / totalStudents) * 100).toFixed(2) : "0";
-  const presentPercentage = totalStudents > 0 ? ((presentCount / totalStudents) * 100).toFixed(2) : "0";
-
-  const absentPercentage = totalStudents > 0 ? ((absentCount / totalStudents) * 100).toFixed(2) : "0";
-
-
-
 
   return (
     <div className="overflow-x-auto p-4">
@@ -130,13 +131,13 @@ const StudentsRecord: React.FC = () => {
           type="search"
           placeholder="Search by name/email"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => dispatch(setSearchTerm(e.target.value))}
           className="border cursor-pointer border-blue-400 rounded-4xl text-left p-2"
         />
 
         <select
           value={selectedGrade}
-          onChange={(e) => setSelectedGrade(e.target.value)}
+          onChange={(e) => dispatch(setSelectedGrade(e.target.value))}
           className="border cursor-pointer border-blue-400 rounded-4xl p-2"
         >
           <option value="">All Grades</option>
@@ -149,7 +150,7 @@ const StudentsRecord: React.FC = () => {
 
         <select
           value={selectedAttendance}
-          onChange={(e) => setSelectedAttendance(e.target.value)}
+          onChange={(e) => dispatch(setSelectedAttendance(e.target.value))}
           className="border cursor-pointer border-blue-400 rounded-4xl p-2"
         >
           <option value="">All Attendance</option>
@@ -159,17 +160,18 @@ const StudentsRecord: React.FC = () => {
       </div>
 
       <div className="mb-4 p-3 bg-blue-100 rounded">
-        <p><strong> Total Students: </strong> {totalStudents} </p>
-        <p><strong> Present: </strong> {presentCount} </p>
-        <p><strong> Absent: : </strong> {absentCount} </p>
-        <p><strong> Attendance %: </strong> {attendancePercentage}% </p>
-        <p><strong>Present:</strong>
-         {/* {presentCount}  */}
-         ({presentPercentage}%)</p>
-
-        <p><strong>Absent:</strong> 
-        {/* {absentCount}  */}
-        ({absentPercentage}%)</p>
+        <p>
+          <strong>Total Students:</strong> {totalStudents}
+        </p>
+        <p>
+          <strong>Present:</strong> {presentCount} ({presentPercentage}%)
+        </p>
+        <p>
+          <strong>Absent:</strong> {absentCount} ({absentPercentage}%)
+        </p>
+        <p>
+          <strong>Attendance %:</strong> {attendancePercentage}%
+        </p>
       </div>
 
       <table className="min-w-full border border-gray-300">
@@ -222,10 +224,7 @@ const StudentsRecord: React.FC = () => {
                 <td className="border px-4 py-2 space-x-2">
                   <button
                     className="bg-blue-500 cursor-pointer text-white px-2 py-0.3 rounded hover:bg-blue-600 transition"
-                    onClick={() => {
-                      setSelectedStudent(student);
-                      setIsModalOpen(true);
-                    }}
+                    onClick={() => dispatch(openModal(student))}
                   >
                     Edit
                   </button>
@@ -233,9 +232,8 @@ const StudentsRecord: React.FC = () => {
                     className="bg-red-500 cursor-pointer text-white mt-1 px-2 py-0.3 rounded hover:bg-red-600 transition"
                     onClick={() => deleteMutation.mutate(student.id)}
                   >
-                    Dell
+                    Del
                   </button>
-
                   <button
                     className="bg-yellow-500 cursor-pointer text-white mt-1 px-2 py-0.3 rounded hover:bg-yellow-600 transition"
                     onClick={() => {
@@ -248,13 +246,12 @@ const StudentsRecord: React.FC = () => {
                           newList[index],
                           newList[index - 1],
                         ];
-                        setOrderedStudents(newList);
+                        dispatch(setOrderedStudents(newList));
                       }
                     }}
                   >
                     Up
                   </button>
-
                   <button
                     className="bg-purple-500 cursor-pointer text-white mt-1 px-2 py-0.3 rounded hover:bg-purple-600 transition"
                     onClick={() => {
@@ -267,7 +264,7 @@ const StudentsRecord: React.FC = () => {
                           newList[index + 1],
                           newList[index],
                         ];
-                        setOrderedStudents(newList);
+                        dispatch(setOrderedStudents(newList));
                       }
                     }}
                   >
@@ -280,39 +277,16 @@ const StudentsRecord: React.FC = () => {
         </tbody>
       </table>
 
-      {isModalOpen && selectedStudent && (
+      {/* {isModalOpen && selectedStudent && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
             <h2 className="text-2xl font-bold text-center mb-6">
-              Edit Student
+              Edit Student 
             </h2>
 
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-
-                const newErrors: Record<string, string> = {};
-                if (!selectedStudent.name.trim())
-                  newErrors.name = "Name is required";
-                if (selectedStudent.age <= 0)
-                  newErrors.age = "Age must be greater than 0";
-                if (!selectedStudent.grade.trim())
-                  newErrors.grade = "Grade is required";
-                if (!selectedStudent.email.includes("@"))
-                  newErrors.email = "Valid email required";
-                if (
-                  !selectedStudent.courses ||
-                  selectedStudent.courses.length === 0 ||
-                  selectedStudent.courses.every((c) => !c.trim())
-                ) {
-                  newErrors.courses = "At least one course is required";
-                }
-
-                if (Object.keys(newErrors).length > 0) {
-                  setErrors(newErrors);
-                  return;
-                }
-
                 mutation.mutate(selectedStudent);
               }}
               className="space-y-6"
@@ -322,19 +296,13 @@ const StudentsRecord: React.FC = () => {
                 <input
                   type="text"
                   value={selectedStudent.name}
-                  onChange={(e) => {
-                    setSelectedStudent({
-                      ...selectedStudent,
-                      name: e.target.value,
-                    });
-                    if (errors.name)
-                      setErrors((prev) => ({ ...prev, name: "" }));
-                  }}
+                  onChange={(e) =>
+                    dispatch(
+                      openModal({ ...selectedStudent, name: e.target.value })
+                    )
+                  }
                   className="w-full border border-gray-300 px-4 py-2 rounded"
                 />
-                {errors.name && (
-                  <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-                )}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -343,19 +311,16 @@ const StudentsRecord: React.FC = () => {
                   <input
                     type="number"
                     value={selectedStudent.age}
-                    onChange={(e) => {
-                      setSelectedStudent({
-                        ...selectedStudent,
-                        age: parseInt(e.target.value) || 0,
-                      });
-                      if (errors.age)
-                        setErrors((prev) => ({ ...prev, age: "" }));
-                    }}
+                    onChange={(e) =>
+                      dispatch(
+                        openModal({
+                          ...selectedStudent,
+                          age: parseInt(e.target.value) || 0,
+                        })
+                      )
+                    }
                     className="w-full border border-gray-300 px-4 py-2 rounded"
                   />
-                  {errors.age && (
-                    <p className="text-red-500 text-sm mt-1">{errors.age}</p>
-                  )}
                 </div>
 
                 <div>
@@ -363,19 +328,13 @@ const StudentsRecord: React.FC = () => {
                   <input
                     type="text"
                     value={selectedStudent.grade}
-                    onChange={(e) => {
-                      setSelectedStudent({
-                        ...selectedStudent,
-                        grade: e.target.value,
-                      });
-                      if (errors.grade)
-                        setErrors((prev) => ({ ...prev, grade: "" }));
-                    }}
+                    onChange={(e) =>
+                      dispatch(
+                        openModal({ ...selectedStudent, grade: e.target.value })
+                      )
+                    }
                     className="w-full border border-gray-300 px-4 py-2 rounded"
                   />
-                  {errors.grade && (
-                    <p className="text-red-500 text-sm mt-1">{errors.grade}</p>
-                  )}
                 </div>
               </div>
 
@@ -384,19 +343,13 @@ const StudentsRecord: React.FC = () => {
                 <input
                   type="email"
                   value={selectedStudent.email}
-                  onChange={(e) => {
-                    setSelectedStudent({
-                      ...selectedStudent,
-                      email: e.target.value,
-                    });
-                    if (errors.email)
-                      setErrors((prev) => ({ ...prev, email: "" }));
-                  }}
+                  onChange={(e) =>
+                    dispatch(
+                      openModal({ ...selectedStudent, email: e.target.value })
+                    )
+                  }
                   className="w-full border border-gray-300 px-4 py-2 rounded"
                 />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
-                )}
               </div>
 
               <div>
@@ -410,19 +363,18 @@ const StudentsRecord: React.FC = () => {
                       ? selectedStudent.courses.join(", ")
                       : selectedStudent.courses
                   }
-                  onChange={(e) => {
-                    setSelectedStudent({
-                      ...selectedStudent,
-                      courses: e.target.value.split(",").map((c) => c.trim()),
-                    });
-                    if (errors.courses)
-                      setErrors((prev) => ({ ...prev, courses: "" }));
-                  }}
+                  onChange={(e) =>
+                    dispatch(
+                      openModal({
+                        ...selectedStudent,
+                        courses: e.target.value
+                          .split(",")
+                          .map((c) => c.trim()),
+                      })
+                    )
+                  }
                   className="w-full border border-gray-300 px-4 py-2 rounded"
                 />
-                {errors.courses && (
-                  <p className="text-red-500 text-sm mt-1">{errors.courses}</p>
-                )}
               </div>
 
               <div>
@@ -430,10 +382,12 @@ const StudentsRecord: React.FC = () => {
                 <select
                   value={selectedStudent.attendance}
                   onChange={(e) =>
-                    setSelectedStudent({
-                      ...selectedStudent,
-                      attendance: e.target.value as "Present" | "Absent",
-                    })
+                    dispatch(
+                      openModal({
+                        ...selectedStudent,
+                        attendance: e.target.value as "Present" | "Absent",
+                      })
+                    )
                   }
                   className="w-full border border-gray-300 px-4 py-2 rounded"
                 >
@@ -445,7 +399,220 @@ const StudentsRecord: React.FC = () => {
               <div className="flex justify-end space-x-4">
                 <button
                   type="button"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => dispatch(closeModal())}
+                  className="px-6 py-2 bg-gray-300 cursor-pointer rounded hover:bg-gray-400 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-6 py-2 cursor-pointer bg-green-600 text-white rounded hover:bg-green-700 transition"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )} */}
+
+      {isModalOpen && selectedStudent && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
+            <h2 className="text-2xl font-bold text-center mb-6">
+              Edit Student
+            </h2>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const newErrors: Record<string, string> = {};
+
+                if (!selectedStudent.name.trim())
+                  newErrors.name = "Name is required";
+                if (selectedStudent.age <= 0 || selectedStudent.age > 100)
+                  newErrors.age = "Age must be between 1 and 100";
+                if (!selectedStudent.grade.trim())
+                  newErrors.grade = "Grade is required";
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(selectedStudent.email))
+                  newErrors.email = "Invalid email format";
+
+                // Fix courses validation - ensure courses is an array and has valid items
+                const coursesArray = Array.isArray(selectedStudent.courses)
+                  ? selectedStudent.courses
+                  : [selectedStudent.courses].filter((c) => c && c.trim());
+
+                if (
+                  coursesArray.length === 0 ||
+                  coursesArray.every((c) => !c.trim())
+                ) {
+                  newErrors.courses = "At least one course is required";
+                }
+
+                if (Object.keys(newErrors).length > 0) {
+                  dispatch(setErrors(newErrors));
+                  return;
+                }
+
+                dispatch(setErrors({}));
+                mutation.mutate(selectedStudent);
+              }}
+            >
+              <div>
+                <label className="block font-semibold mb-1">Full Name</label>
+                <input
+                  type="text"
+                  value={selectedStudent.name}
+                  onChange={(e) =>
+                    dispatch(
+                      openModal({ ...selectedStudent, name: e.target.value })
+                    )
+                  }
+                  className="w-full border border-gray-300 px-4 py-2 rounded"
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-semibold mb-1">Age</label>
+                  <input
+                    type="text"
+                    value={selectedStudent.age}
+                    onChange={(e) =>
+                      dispatch(
+                        openModal({
+                          ...selectedStudent,
+                          age: parseInt(e.target.value) || 0,
+                        })
+                      )
+                    }
+                    className="w-full border border-gray-300 px-4 py-2 rounded"
+                  />
+                  {errors.age && (
+                    <p className="text-red-500 text-sm mt-1">{errors.age}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block font-semibold mb-1">Grade</label>
+                  <input
+                    type="text"
+                    value={selectedStudent.grade}
+                    onChange={(e) =>
+                      dispatch(
+                        openModal({ ...selectedStudent, grade: e.target.value })
+                      )
+                    }
+                    className="w-full border border-gray-300 px-4 py-2 rounded"
+                  />
+                  {errors.grade && (
+                    <p className="text-red-500 text-sm mt-1">{errors.grade}</p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">Email</label>
+                <input
+                  type="email"
+                  value={selectedStudent.email}
+                  onChange={(e) =>
+                    dispatch(
+                      openModal({ ...selectedStudent, email: e.target.value })
+                    )
+                  }
+                  className="w-full border border-gray-300 px-4 py-2 rounded"
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                )}
+              </div>
+
+              {/* <div>
+                <label className="block font-semibold mb-1">
+                  Courses (comma separated)
+                </label>
+                <input
+                  type="text"
+                  value={
+                    Array.isArray(selectedStudent.courses)
+                      ? selectedStudent.courses.join(", ")
+                      : selectedStudent.courses
+                  }
+                  onChange={(e) =>
+                    dispatch(
+                      openModal({
+                        ...selectedStudent,
+                        courses: e.target.value
+                          .split(",")
+                          .map((c) => c.trim())
+                          .filter((c) => c !== ""),
+                      })
+                    )
+                  }
+                  className="w-full border border-gray-300 px-4 py-2 rounded"
+                />
+                {errors.courses && (
+                  <p className="text-red-500 text-sm mt-1">{errors.courses}</p>
+                )}
+              </div> */}
+
+              <div>
+                <label className="block font-semibold mb-1">
+                  Courses (comma separated)
+                </label>
+                <input
+                  type="text"
+                  value={
+                    Array.isArray(selectedStudent.courses)
+                      ? selectedStudent.courses.join(", ")
+                      : selectedStudent.courses
+                  }
+                  onChange={(e) =>
+                    dispatch(
+                      openModal({
+                        ...selectedStudent,
+                        courses: e.target.value
+                          .split(",")
+                          .map((c) => c.trim())
+                          .filter((c) => c !== ""),
+                      })
+                    )
+                  }
+                  className="w-full border border-gray-300 px-4 py-2 rounded"
+                  placeholder="Enter courses separated by commas (e.g., Math, Science, English)"
+                />
+                {errors.courses && (
+                  <p className="text-red-500 text-sm mt-1">{errors.courses}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block font-semibold mb-1">Attendance</label>
+                <select
+                  value={selectedStudent.attendance}
+                  onChange={(e) =>
+                    dispatch(
+                      openModal({
+                        ...selectedStudent,
+                        attendance: e.target.value as "Present" | "Absent",
+                      })
+                    )
+                  }
+                  className="w-full border border-gray-300 px-4 py-2 rounded"
+                >
+                  <option value="Present">Present</option>
+                  <option value="Absent">Absent</option>
+                </select>
+              </div>
+
+              <div className="flex justify-end mt-5 space-x-4">
+                <button
+                  type="button"
+                  onClick={() => dispatch(closeModal())}
                   className="px-6 py-2 bg-gray-300 cursor-pointer rounded hover:bg-gray-400 transition"
                 >
                   Cancel

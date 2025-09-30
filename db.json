@@ -7,7 +7,7 @@
       "grade": "9th",
       "email": "amirshakeeliub@gmail.com",
       "courses": [
-        "physics"
+        "Computer Science"
       ],
       "attendance": "Present"
     },
@@ -19,17 +19,6 @@
       "email": "amirshakeeliub@gmail.com",
       "courses": [
         "urdu"
-      ],
-      "attendance": "Present"
-    },
-    {
-      "id": "ddf8",
-      "name": "Imran Riaz",
-      "age": 30,
-      "grade": "11th",
-      "email": "imran123@gmail.com",
-      "courses": [
-        "English"
       ],
       "attendance": "Present"
     },
@@ -65,6 +54,36 @@
         "JavaScript"
       ],
       "attendance": "Present"
+    },
+    {
+      "id": "4132",
+      "name": "Aqsa Jabbar",
+      "age": 20,
+      "grade": "12th",
+      "email": "aqsa123@gmail.com",
+      "courses": [
+        "physics",
+        "chemistry",
+        "math"
+      ],
+      "attendance": "Absent"
+    }
+  ],
+  "superheroes": [
+    {
+      "id": "1",
+      "name": "Batman",
+      "alterEgo": "Bruce Wayne"
+    },
+    {
+      "id": "2",
+      "name": "Superman",
+      "alterEgo": "Clark Kent"
+    },
+    {
+      "id": "3",
+      "name": "Wonder Woman",
+      "alterEgo": "Princess Diana"
     }
   ]
 }

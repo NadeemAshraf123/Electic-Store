@@ -26,26 +26,38 @@ const AddStudentForm: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
-
+  const [courseInput, setCourseInput] = useState<string>("");
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
+
     if (!student.name.trim()) newErrors.name = "Name is required";
-    if (student.age <= 0) newErrors.age = "Age must be greater than 0";
+    else if (student.name.trim().length < 2)
+      newErrors.name = "Name must be at least 2 characters";
+
+    if (student.age < 5 || student.age > 25)
+      newErrors.age = "Age must be between 5 and 25";
+
     if (!student.grade.trim()) newErrors.grade = "Grade is required";
-    if (!student.email.includes("@")) newErrors.email = "Valid email required";
-    if (
-      !student.courses.length ||
-      student.courses.every((c) => c.trim() === "")
-    ) {
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!student.email.trim()) newErrors.email = "Email is required";
+    else if (!emailRegex.test(student.email))
+      newErrors.email = "Please enter a valid email address";
+
+    if (student.courses.length === 0) {
       newErrors.courses = "At least one course is required";
+    } else {
+      const emptyCourses = student.courses.some((course) => !course.trim());
+      if (emptyCourses) newErrors.courses = "Course names cannot be empty";
     }
+
     return newErrors;
   };
 
   const addStudent = async (newStudent: Student) => {
-    await axios.post("http://localhost:3000/students", newStudent);
-  };
+  await axios.post("http://localhost:3000/students", newStudent);
+};
 
   const mutation = useMutation({
     mutationFn: addStudent,
@@ -65,6 +77,22 @@ const AddStudentForm: React.FC = () => {
     mutation.mutate(student);
   };
 
+  const handleCourseInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setCourseInput(value);
+
+    const courses = value
+      .split(",")
+      .map((c) => c.trim())
+      .filter((c) => c.length > 0);
+
+    setStudent({ ...student, courses });
+
+    if (errors.courses && courses.length > 0) {
+      setErrors((prev) => ({ ...prev, courses: "" }));
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -74,7 +102,6 @@ const AddStudentForm: React.FC = () => {
         Student Record Form
       </h2>
 
-    
       <div>
         <label className="block font-semibold mb-1">Full Name</label>
         <input
@@ -91,7 +118,6 @@ const AddStudentForm: React.FC = () => {
         )}
       </div>
 
-  
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block font-semibold mb-1">Age</label>
@@ -125,7 +151,6 @@ const AddStudentForm: React.FC = () => {
         </div>
       </div>
 
-  
       <div>
         <label className="block font-semibold mb-1">Email</label>
         <input
@@ -142,31 +167,47 @@ const AddStudentForm: React.FC = () => {
         )}
       </div>
 
-    
+     
+
       <div>
-        <label className="block font-semibold mb-1">
-          Courses (comma separated)
-        </label>
+        <label className="block font-semibold mb-1">Courses *</label>
+
         <input
           type="text"
-          value={student.courses.join(", ")}
-          onChange={(e) => {
-            const courses = e.target.value
-              .split(",")
-              .map((c) => c.trim())
-              .filter((c) => c.length > 0);
-            setStudent({ ...student, courses });
-            if (errors.courses)
-              setErrors((prev) => ({ ...prev, courses: "" }));
-          }}
-          className="w-full border border-gray-300 px-4 py-2 rounded"
+          value={courseInput}
+          onChange={handleCourseInputChange}
+          className="w-full border border-gray-300 px-4 py-2 rounded mb-2"
+          placeholder="Enter courses separated by commas (e.g., Math, Science, English)"
         />
+
+        <div className="bg-gray-50 p-3 rounded border">
+          <p className="text-sm font-semibold mb-2">Current Courses:</p>
+          {student.courses.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {student.courses.map((course, index) => (
+                <span
+                  key={index}
+                  className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                >
+                  {course}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-500 text-sm">No courses added yet</p>
+          )}
+        </div>
+
+        <p className="text-sm text-gray-600 mt-2">
+          💡 Separate multiple courses with commas. Example: "Mathematics,
+          Physics, Chemistry"
+        </p>
+
         {errors.courses && (
           <p className="text-red-500 text-sm mt-1">{errors.courses}</p>
         )}
       </div>
 
-    
       <div>
         <label className="block font-semibold mb-1">Attendance</label>
         <select
@@ -184,12 +225,21 @@ const AddStudentForm: React.FC = () => {
         </select>
       </div>
 
-
+     
       <button
         type="submit"
-        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+        disabled={mutation.isPending}
+        className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
       >
-        Add Student
+        {mutation.isPending ? "Adding Student..." : "Add Student"}
+      </button>
+
+      <button
+        type="button"
+        onClick={() => navigate("/students")}
+        className="w-full bg-gray-500 text-white py-2 rounded hover:bg-gray-600 transition"
+      >
+        Back to Student Records
       </button>
     </form>
   );
