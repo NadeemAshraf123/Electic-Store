@@ -6,6 +6,7 @@ const RQNavbar = () => {
       <Link to="/rqhome" className="hover:text-purple-900 transition">Home Page</Link>
       <Link to="/super-heroes" className="hover:text-purple-900 transition"> Super Heroes Page</Link>
       <Link to="/rq-super-heroes" className="hover:text-purple-900 transition">RQ Super Heroes Page</Link>
+      <Link to="/global-state-data" className="hover:text-purple-900 transition">Global Data</Link>
     </div>
   );
 };

@@ -164,13 +164,13 @@ const StudentsRecord: React.FC = () => {
           <strong>Total Students:</strong> {totalStudents}
         </p>
         <p>
-          <strong>Present:</strong> {presentCount} ({presentPercentage}%)
+          <strong>Present :</strong> {presentCount} ({presentPercentage}%)
         </p>
         <p>
-          <strong>Absent:</strong> {absentCount} ({absentPercentage}%)
+          <strong>Absent :</strong> {absentCount} ({absentPercentage}%)
         </p>
         <p>
-          <strong>Attendance %:</strong> {attendancePercentage}%
+          <strong>Attendance :</strong> {attendancePercentage}%
         </p>
       </div>
 
@@ -277,150 +277,11 @@ const StudentsRecord: React.FC = () => {
         </tbody>
       </table>
 
-      {/* {isModalOpen && selectedStudent && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
-            <h2 className="text-2xl font-bold text-center mb-6">
-              Edit Student 
-            </h2>
-
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                mutation.mutate(selectedStudent);
-              }}
-              className="space-y-6"
-            >
-              <div>
-                <label className="block font-semibold mb-1">Full Name</label>
-                <input
-                  type="text"
-                  value={selectedStudent.name}
-                  onChange={(e) =>
-                    dispatch(
-                      openModal({ ...selectedStudent, name: e.target.value })
-                    )
-                  }
-                  className="w-full border border-gray-300 px-4 py-2 rounded"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block font-semibold mb-1">Age</label>
-                  <input
-                    type="number"
-                    value={selectedStudent.age}
-                    onChange={(e) =>
-                      dispatch(
-                        openModal({
-                          ...selectedStudent,
-                          age: parseInt(e.target.value) || 0,
-                        })
-                      )
-                    }
-                    className="w-full border border-gray-300 px-4 py-2 rounded"
-                  />
-                </div>
-
-                <div>
-                  <label className="block font-semibold mb-1">Grade</label>
-                  <input
-                    type="text"
-                    value={selectedStudent.grade}
-                    onChange={(e) =>
-                      dispatch(
-                        openModal({ ...selectedStudent, grade: e.target.value })
-                      )
-                    }
-                    className="w-full border border-gray-300 px-4 py-2 rounded"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block font-semibold mb-1">Email</label>
-                <input
-                  type="email"
-                  value={selectedStudent.email}
-                  onChange={(e) =>
-                    dispatch(
-                      openModal({ ...selectedStudent, email: e.target.value })
-                    )
-                  }
-                  className="w-full border border-gray-300 px-4 py-2 rounded"
-                />
-              </div>
-
-              <div>
-                <label className="block font-semibold mb-1">
-                  Courses (comma separated)
-                </label>
-                <input
-                  type="text"
-                  value={
-                    Array.isArray(selectedStudent.courses)
-                      ? selectedStudent.courses.join(", ")
-                      : selectedStudent.courses
-                  }
-                  onChange={(e) =>
-                    dispatch(
-                      openModal({
-                        ...selectedStudent,
-                        courses: e.target.value
-                          .split(",")
-                          .map((c) => c.trim()),
-                      })
-                    )
-                  }
-                  className="w-full border border-gray-300 px-4 py-2 rounded"
-                />
-              </div>
-
-              <div>
-                <label className="block font-semibold mb-1">Attendance</label>
-                <select
-                  value={selectedStudent.attendance}
-                  onChange={(e) =>
-                    dispatch(
-                      openModal({
-                        ...selectedStudent,
-                        attendance: e.target.value as "Present" | "Absent",
-                      })
-                    )
-                  }
-                  className="w-full border border-gray-300 px-4 py-2 rounded"
-                >
-                  <option value="Present">Present</option>
-                  <option value="Absent">Absent</option>
-                </select>
-              </div>
-
-              <div className="flex justify-end space-x-4">
-                <button
-                  type="button"
-                  onClick={() => dispatch(closeModal())}
-                  className="px-6 py-2 bg-gray-300 cursor-pointer rounded hover:bg-gray-400 transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-6 py-2 cursor-pointer bg-green-600 text-white rounded hover:bg-green-700 transition"
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )} */}
-
       {isModalOpen && selectedStudent && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-2xl">
             <h2 className="text-2xl font-bold text-center mb-6">
-              Edit Student
+              Edit Student modal
             </h2>
 
             <form
@@ -437,7 +298,6 @@ const StudentsRecord: React.FC = () => {
                 if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(selectedStudent.email))
                   newErrors.email = "Invalid email format";
 
-                // Fix courses validation - ensure courses is an array and has valid items
                 const coursesArray = Array.isArray(selectedStudent.courses)
                   ? selectedStudent.courses
                   : [selectedStudent.courses].filter((c) => c && c.trim());
@@ -531,39 +391,11 @@ const StudentsRecord: React.FC = () => {
                 )}
               </div>
 
-              {/* <div>
-                <label className="block font-semibold mb-1">
-                  Courses (comma separated)
-                </label>
-                <input
-                  type="text"
-                  value={
-                    Array.isArray(selectedStudent.courses)
-                      ? selectedStudent.courses.join(", ")
-                      : selectedStudent.courses
-                  }
-                  onChange={(e) =>
-                    dispatch(
-                      openModal({
-                        ...selectedStudent,
-                        courses: e.target.value
-                          .split(",")
-                          .map((c) => c.trim())
-                          .filter((c) => c !== ""),
-                      })
-                    )
-                  }
-                  className="w-full border border-gray-300 px-4 py-2 rounded"
-                />
-                {errors.courses && (
-                  <p className="text-red-500 text-sm mt-1">{errors.courses}</p>
-                )}
-              </div> */}
-
               <div>
                 <label className="block font-semibold mb-1">
                   Courses (comma separated)
                 </label>
+
                 <input
                   type="text"
                   value={
@@ -582,9 +414,31 @@ const StudentsRecord: React.FC = () => {
                       })
                     )
                   }
-                  className="w-full border border-gray-300 px-4 py-2 rounded"
+                  className="w-full border border-gray-300 px-4 py-2 rounded mb-2"
                   placeholder="Enter courses separated by commas (e.g., Math, Science, English)"
                 />
+
+                <div className="bg-gray-50 p-3 rounded border">
+                  <p className="text-sm font-semibold mb-2">Current Courses:</p>
+                  {selectedStudent.courses &&
+                  selectedStudent.courses.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {selectedStudent.courses.map((course, index) => (
+                        <span
+                          key={index}
+                          className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm"
+                        >
+                          {course}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-gray-500 text-sm">
+                      No courses added yet
+                    </p>
+                  )}
+                </div>
+
                 {errors.courses && (
                   <p className="text-red-500 text-sm mt-1">{errors.courses}</p>
                 )}

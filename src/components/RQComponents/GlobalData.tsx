@@ -1,36 +1,19 @@
-import React from 'react'
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from '../../App/StudentStore';
+import type { RootState } from "../../App/StudentStore";
 
-const RQHome = () => {
-
-
-  const StudentsState = useSelector((state: RootState) => state.students);
+function GlobalData() {
+  const studentData = useSelector((state: RootState) => state.students);
   const dispatch = useDispatch();
-  const { orderedStudents, searchTerm, newStudent } = StudentsState;
+  const { orderedStudents } = studentData;
 
   
   return (
     <>
-      <h2 className='text-center items-center font-extrabold text-5xl mt-10 mb-8'>
-        Student Records - RQ Home
+      <h2 className="text-center items-center font-extrabold text-5xl mt-10 mb-8">
+        Global Data
       </h2>
-      
 
-      <div className="max-w-6xl mx-auto mb-6 p-4 bg-blue-50 rounded-lg">
-        <div className="flex justify-between items-center">
-          <div>
-            <h3 className="text-lg font-semibold">Quick Stats</h3>
-            <p>Total Students: <span className="font-bold">{orderedStudents.length}</span></p>
-          </div>
-          <div className="text-sm text-gray-600">
-            Present: {orderedStudents.filter(s => s.attendance === "Present").length} | 
-            Absent: {orderedStudents.filter(s => s.attendance === "Absent").length}
-          </div>
-        </div>
-      </div>
-
-  
       <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         {orderedStudents.length === 0 ? (
           <div className="text-center py-8">
@@ -66,8 +49,8 @@ const RQHome = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {orderedStudents.map((student, index) => (
-                  <tr 
-                    key={student.id || index} 
+                  <tr
+                    key={student.id || index}
                     className="hover:bg-gray-50 transition-colors"
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -89,7 +72,8 @@ const RQHome = () => {
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-900">
                       <div className="flex flex-wrap gap-1 max-w-xs">
-                        {Array.isArray(student.courses) && student.courses.length > 0 ? (
+                        {Array.isArray(student.courses) &&
+                        student.courses.length > 0 ? (
                           student.courses.map((course, courseIndex) => (
                             <span
                               key={courseIndex}
@@ -99,7 +83,9 @@ const RQHome = () => {
                             </span>
                           ))
                         ) : (
-                          <span className="text-gray-400 text-xs">No courses</span>
+                          <span className="text-gray-400 text-xs">
+                            No courses
+                          </span>
                         )}
                       </div>
                     </td>
@@ -121,23 +107,8 @@ const RQHome = () => {
           </div>
         )}
       </div>
-
-
-      {newStudent && newStudent.name && (
-        <div className="max-w-6xl mx-auto mt-8 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-          <h3 className="text-lg font-semibold mb-2">New Student Being Added:</h3>
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div><strong>Name:</strong> {newStudent.name}</div>
-            <div><strong>Age:</strong> {newStudent.age}</div>
-            <div><strong>Grade:</strong> {newStudent.grade}</div>
-            <div><strong>Email:</strong> {newStudent.email}</div>
-            <div><strong>Courses:</strong> {newStudent.courses.join(", ")}</div>
-            <div><strong>Attendance:</strong> {newStudent.attendance}</div>
-          </div>
-        </div>
-      )}
     </>
-  )
+  );
 }
 
-export default RQHome
+export default GlobalData;
